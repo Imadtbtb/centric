@@ -1,0 +1,204 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #12776b, #c1ebe4); /* Updated gradient background */
+    overflow: hidden;
+    position: relative;
+    height: 100vh; /* Ensure the body takes full height */
+}
+
+.navbar {
+    background-color: #00796b;
+    color: white;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo h1 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    background-color: #004d40;
+    transform: scale(1.05);
+}
+
+.contact-container {
+    display: flex;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 1000px;
+    height: 600px;
+    position: absolute; /* Change to absolute positioning */
+    top: 50%; /* Position from top */
+    left: 50%; /* Position from left */
+    transform: translate(-50%, -50%); /* Center it */
+    margin-top: 30px;
+}
+
+.form-container {
+    flex: 2;
+    padding: 20px;
+}
+
+.contact-info {
+    margin: 20px 0;
+    padding-left: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.social-icons-container {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-left: 1px solid #ccc;
+}
+
+h2 {
+    margin-bottom: 20px;
+    margin-left: 70px;
+    font-size: 24px;
+}
+
+.top-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.top-icon {
+    margin: 25px 0; /* Increased space between icons */
+    display: flex;
+    align-items: center; /* Align text and icon on the same line */
+}
+
+.top-icon i {
+    font-size: 30px; /* Increase icon size */
+    color: #12776b; /* Changed icon color to #12776b */
+    margin-right: 10px; /* Space between icon and text */
+}
+
+.top-icon-info {
+    display: flex;
+    flex-direction: column; /* Stack title and info vertically */
+    padding-left: 18px;
+}
+
+.top-icon strong {
+    font-size: 21px; /* Increased bold title size */
+    color: #333; /* Title color */
+}
+
+.top-icon span {
+    font-size: 16px; /* Increased info text size */
+    color: #666; /* Info color */
+}
+
+.contact-form {
+    padding-top: 25px; /* Adjust this value */
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 70%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 16px;
+    margin-left: 70px;
+}
+
+.contact-form textarea {
+    height: 100px;
+    resize: none;
+}
+
+.submit-btn {
+    background-color: #12776b; /* Changed button background to #12776b */
+    color: white;
+    padding: 10px;
+    width: 40%;
+    height: 45px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    margin-left: 150px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: #004d40; /* Changed hover color to #004d40 */
+}
+
+.social-icons {
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+    display: flex;
+    padding: 10px; /* Add padding inside the box */
+    background-color: #f1f1f1; /* Background color for the box */
+    border: 2px solid #12776b; /* Changed border color to #12776b */
+    border-radius: 8px; /* Rounded corners for the box */
+}
+
+.social-icon {
+    margin: 0 20px; /* Increased space between social icons */
+    font-size: 23px; /* Increase icon size */
+    color: #12776b; /* Change icon color to #12776b */
+}
+
+.social-icon:hover {
+    color: #004d40; /* Changed hover color to #004d40 */
+}
+
+.fab, .fas {
+    transition: color 0.3s ease;
+}
