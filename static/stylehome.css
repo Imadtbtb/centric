@@ -1,0 +1,46 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+}
+h1 {
+    text-align: center;
+}
+.form-container {
+    width: 50%;
+    margin: 0 auto;
+}
+.form-container form {
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    margin: 8px 0;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #45a049;
+}
+.link-button {
+    background-color: #008CBA; /* Blue color for the link button */
+    margin-top: 20px;
+}
+.link-button:hover {
+    background-color: #007bb5; /* Darker blue on hover */
+}
+
+

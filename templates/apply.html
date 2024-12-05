@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Booking System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylehome.css') }}">
+    <style>
+        /* High-level design for Room Booking Form */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #3ba79a, #c1ebe4); 
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #00796b;
+            padding-top: 20px;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .navbar .logo h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 15px 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #004d40;
+        }
+
+        .main-content {
+            margin-left: 270px; /* Space for vertical navbar */
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .room-booking-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            margin: 40px auto;
+            width: 60%;
+            max-width: 800px;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .room-booking-container h1 {
+            color: #00796b;
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .room-booking-container p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .room-booking-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .room-booking-container label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .room-booking-container input {
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 80%;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+
+        .room-booking-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+
+        .room-booking-container button:hover {
+            background-color: #45a049;
+        }
+
+        .alert {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .history-section {
+            margin-top: 40px;
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+        }
+
+        .history-section a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .history-section a:hover {
+            text-decoration: underline;
+        }
+
+        .disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        /* Icons */
+        .icon {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .icon-container i {
+            font-size: 40px;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .icon-container i:hover {
+            transform: scale(1.2);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <h1>Global Dorm</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('Search') }}">Search</a></li>
+            <li><a href="{{ url_for('apply') }}">Apply</a></li>
+            <li><a href="{{ url_for('crime') }}">Crime</a></li>
+            <li><a href="{{ url_for('weather') }}">Weather</a></li>
+            <li><a href="{{ url_for('distance') }}">Distance</a></li>
+            <li><a href="{{ url_for('history') }}">History</a></li>
+            <li><a href="{{ url_for('cancel') }}">Cancel</a></li>
+            <li><a href="{{ url_for('index') }}">Home page</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="room-booking-container">
+            <h1>Welcome to the Room Booking System</h1>
+
+            {% if not logged_in %}
+            <div class="alert">You must be logged in to book a room.</div>
+            {% endif %}
+
+            <h2>Book a Room</h2>
+            <p><i class="icon">🏠</i> After searching for your room, enter the room details below to proceed with the booking.</p>
+            <p><i class="icon">📅</i> You can track the status of your booking (Booked, Pending, Canceled) under the "History" section.</p>
+
+            <form action="/book_room" method="POST">
+                <label for="room_id">Room ID:</label>
+                <input type="text" id="room_id" name="room_id" required placeholder="Enter the Room ID here">
+
+                <button type="submit" {% if not logged_in %} class="disabled" disabled {% endif %}>Book Room</button>
+            </form>
+
+            <div class="history-section">
+                <p><i class="icon">📜</i> Check or track your room application status on the <a href="{{ url_for('history') }}">History</a> page.</p>
+            </div>
+
+            <div class="icon-container">
+                <i class="fa fa-search" title="Search"></i>
+                <i class="fa fa-calendar" title="Booking"></i>
+                <i class="fa fa-history" title="Booking History"></i>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

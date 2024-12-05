@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Room Application</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styleindex.css') }}">
+    
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <h1>Global Dorm</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('room') }}">Room Management</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                {% if 'user_data' in session %}
+                    <!-- Show Logout if the user is logged in -->
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <!-- Show Sign Up and Login if the user is not logged in -->
+                    <li><a href="{{ url_for('login') }}">Sign Up</a></li>
+                  
+                {% endif %}
+            </ul>
+        </div>
+    </header>
+    
+
+    <!-- Main Content Area -->
+    <main id="home" class="main-content">
+
+        <!-- Section 1: Left and Right Containers -->
+        <section class="intro-section">
+            <div class="left-container">
+                <h1>Welcome to Your Student Room Application</h1>
+                <p class="intro-text">
+                    Our platform helps students find the best living spaces near universities. With advanced search filters and personalized recommendations, you can easily find a room that suits your preferences and budget.
+                </p>
+            </div>
+
+            <div class="right-container">
+                <!-- Image placed here using the external link -->
+            </div>
+        </section>
+
+        <!-- Service Description Section -->
+        <section class="service-description">
+            <h2>Why Choose Us?</h2>
+            <p class="service-text">
+                With our StudentRoomApp, you can easily find rooms that match your needs, budget, and location. Our platform helps you save time and ensures that you find the perfect place for your studies.
+            </p>
+        </section>
+
+        <!-- Technologies Section -->
+        <section class="tech-section">
+            <div class="tech-item">
+                <i class="fab fa-js-square"></i>
+                <h4>JavaScript</h4>
+                <p>We use JavaScript to make our platform dynamic and interactive.</p>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-database"></i>
+                <h4>SQL Database</h4>
+                <p>Our platform is powered by a robust SQL database to manage user and room data.</p>
+            </div>
+            <div class="tech-item">
+                <i class="fas fa-cloud"></i>
+                <h4>Cloud Services</h4>
+                <p>We leverage cloud services for data storage and scalability.</p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <h2>Features</h2>
+            <ul class="features-list">
+                <li>
+                    <i class="fas fa-search"></i>
+                    <h4>Advanced Search Filters</h4>
+                    <p>Filter rooms based on location, price, and amenities to find the best match.</p>
+                </li>
+                <li>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h4>Location-based Search</h4>
+                    <p>Find rooms near your campus or in the best student neighborhoods.</p>
+                </li>
+                <li>
+                    <i class="fas fa-user-friends"></i>
+                    <h4>Roommate Matching</h4>
+                    <p>Looking for a roommate? We offer a roommate matching service.</p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Call to Action Section -->
+        <section class="cta-section">
+            <h2>Ready to Find Your Perfect Room?</h2>
+            <p class="cta-text">Sign up now and start your search!</p>
+            <a href="signup.html" class="cta-button">Get Started</a>
+        </section>
+    </main>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

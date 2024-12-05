@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Search Results</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #3ba79a, #c1ebe4); 
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #00796b;
+            padding-top: 20px;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .navbar .logo h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 15px 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #004d40;
+        }
+
+        .main-content {
+            margin-left: 270px; /* Space for vertical navbar */
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 600px; /* Increased the width */
+            margin-bottom: 30px;
+        }
+
+        .form-container h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #00796b;
+        }
+
+        .form-container label {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-container input:focus {
+            border-color: #00796b;
+            outline: none;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 15px;
+            background-color: #00796b;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-container button:hover {
+            background-color: #004d40;
+        }
+
+        .room {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            width: 80%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .room:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .room .details {
+            flex: 1;
+        }
+
+        .room img {
+            max-width: 250px;
+            margin-left: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .room h3 {
+            font-size: 22px;
+            color: #00796b;
+            margin-bottom: 10px;
+        }
+
+        .room .details p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .message {
+            color: red;
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <h1>Global Dorm</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('Search') }}">Search</a></li>
+            <li><a href="{{ url_for('crime') }}">Crime</a></li>
+            <li><a href="{{ url_for('weather') }}">Weather</a></li>
+            <li><a href="{{ url_for('distance') }}">Distance</a></li>
+            <li><a href="{{ url_for('apply') }}">Apply</a></li>
+            <li><a href="{{ url_for('history') }}">History</a></li>
+            <li><a href="{{ url_for('cancel') }}">Cancel</a></li>
+            <li><a href="{{ url_for('index') }}">Home page</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="form-container">
+            <h2>Filter your room by:</h2>
+            <form action="/Search" method="POST">
+                <label for="priceMax">Max Price (£):</label>
+                <input type="number" id="priceMax" name="priceMax" required><br>
+
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required><br>
+
+                <label for="county">County:</label>
+                <input type="text" id="county" name="county" required><br>
+
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        {% if room_details %}
+            <h2>Room Search Results:</h2>
+            {% for room in room_details %}
+                <div class="room">
+                    <div class="details">
+                        <h3>{{ room.name }}</h3>
+                        <p><strong>Location:</strong> {{ room.city }}, {{ room.county }} ({{ room.postcode }})</p>
+                        <p><strong>Price per Month:</strong> £{{ room.price }}</p>
+                        <p><strong>Amenities:</strong> {{ room.amenities }}</p>
+                        <p><strong>Availability Date:</strong> {{ room.availability_date }}</p>
+                        <p><strong>Shared With:</strong> {{ room.shared_with }} people</p>
+                        <p><strong>Live-in Landlord:</strong> {{ room.live_in_landlord }}</p>
+                        <p><strong>Furnished:</strong> {{ room.furnished }}</p>
+                    </div>
+                    <img src="https://studentbeehive.co.uk/templates/yootheme/cache/63/not-studio-1-63a02fca.webp" alt="Room Image">
+                </div>
+            {% endfor %}
+        {% elif message %}
+            <p class="message">{{ message }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+

@@ -1,0 +1,257 @@
+/* Basic Reset */
+* {
+    margin: 0;
+padding: 0;
+box-sizing: border-box;
+color: white;
+}
+
+/* Body Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navbar Styles */
+.navbar {
+    background-color: #00796b;
+    color: white;
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo h1 {
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-links li {
+    display: inline;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 12px 20px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    background-color: #004d40;
+    transform: scale(1.05);
+}
+
+/* Section 1: Left and Right Containers */
+.intro-section {
+    display: flex;
+    justify-content: space-between;
+    padding: 80px 20px;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.left-container {
+    width: 50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left-container h1 {
+    font-size: 50px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+.intro-text {
+    font-size: 22px;
+    color: #555;
+    margin-top: 20px;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.right-container {
+    width: 50%;
+    background-image: url('https://s3.eu-west-2.amazonaws.com/assets.crm-students.com/2018/10/Central-Studios-Reading-Studio-3.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.right-container:hover {
+    transform: scale(1.05);
+}
+
+/* Service Description Section */
+.service-description {
+    margin-top: 80px;
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+}
+
+.service-description h2 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.service-text {
+    font-size: 20px;
+    color: #666;
+    margin-top: 20px;
+    line-height: 1.8;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Technologies Section */
+.tech-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 60px;
+    padding: 40px 20px;
+    background-color: #00796b;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 15px;
+}
+
+.tech-item {
+    text-align: center;
+    font-size: 20px;
+    color: #333;
+}
+
+.tech-item i {
+    font-size: 40px;
+    color: #00796b;
+    margin-bottom: 15px;
+}
+
+.tech-item h4 {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color:white;
+}
+
+/* Features Section */
+.features-section {
+    margin-top: 80px;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.features-section h2 {
+    font-size: 36px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+}
+
+.features-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.features-list li {
+    background-color: #00796b;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.features-list li:hover {
+    transform: translateY(-10px);
+}
+
+.features-list li i {
+    font-size: 40px;
+    color: #00796b;
+    margin-bottom: 15px;
+}
+
+.cta-section {
+    background-color: #00796b;
+    color: white;
+    padding: 60px 20px;
+    margin-top: 50px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.cta-section h2 {
+    font-size: 36px;
+    font-weight: 600;
+}
+
+.cta-text {
+    font-size: 22px;
+    margin-top: 20px;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #00796b;
+    font-size: 20px;
+    padding: 15px 40px;
+    margin-top: 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #004d40;
+    color: white;
+    transform: scale(1.05);
+}
+
+
+

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylehome.css') }}">
+    <style>
+        /* Refined CSS for Cancel Application Form with red button and centered container */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #3ba79a, #c1ebe4);
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar {
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #00796b;
+            padding-top: 20px;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .navbar .logo h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 15px 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #004d40;
+        }
+
+        .main-content {
+            margin-left: 270px;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* New, sophisticated container for cancel application */
+        .cancel-application-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            margin-left: 280px;
+            margin-bottom: 150px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            width: 60%;
+            max-width: 800px;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        .cancel-application-container:hover {
+            transform: scale(1.05); /* Subtle scaling effect on hover */
+        }
+
+        .cancel-application-container h2 {
+            color: #00796b;
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .cancel-application-container p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .cancel-application-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .cancel-application-container label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .cancel-application-container input {
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 80%;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+
+        /* Updated button styles - Red with hover effects */
+        .cancel-application-container button {
+            background-color: #e53935; /* Red color */
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .cancel-application-container button:hover {
+            background-color: #d32f2f; /* Darker red */
+            transform: scale(1.05); /* Button grows on hover */
+        }
+
+        .cancel-application-container button:active {
+            background-color: #c62828; /* Even darker red on click */
+            transform: scale(0.98); /* Slight shrink on click */
+        }
+
+        .cancel-application-container p a {
+            color: #00796b;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .cancel-application-container p a:hover {
+            color: #004d40; /* Darker green on hover */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <h1>Global Dorm</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('Search') }}">Search</a></li>
+            <li><a href="{{ url_for('crime') }}">Crime</a></li>
+            <li><a href="{{ url_for('weather') }}">Weather</a></li>
+            <li><a href="{{ url_for('distance') }}">Distance</a></li>
+            <li><a href="{{ url_for('apply') }}">Apply</a></li>
+            <li><a href="{{ url_for('history') }}">History</a></li>
+            <li><a href="{{ url_for('cancel') }}">Cancel</a></li>
+            <li><a href="{{ url_for('index') }}">Home page</a></li>
+        </ul>
+    </div>
+
+    <!-- Cancel Application Form with refined styling -->
+    <div class="cancel-application-container">
+        <h2>Cancel Your Application</h2>
+        <p>We are sorry to hear that you wish to cancel your application. Please be aware that this action will permanently remove your application from our database, and you will no longer be considered for our dormitory services.</p>
+        <p>If you still wish to proceed, please enter your Application ID below.</p>
+        <form action="/cancel_application" method="POST">
+            <label for="application_id">Application ID:</label>
+            <input type="text" id="application_id" name="application_id" required>
+
+            <button type="submit">Cancel Application</button>
+        </form>
+        <p>If you have any further questions or concerns, please feel free to contact our support team.</p>
+        <p>To apply again in the future, please visit our <a href="{{ url_for('apply') }}">Application Page</a>.</p>
+    </div>
+</body>
+</html>
+
+

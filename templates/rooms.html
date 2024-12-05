@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Management - Global Dorm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylerooms.css') }}">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-container">
+            <div class="logo">
+                <h1>Global Dorm</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('room') }}">Room Management</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                {% if 'user_data' in session %}
+                    <!-- Show Logout if the user is logged in -->
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <!-- Show Sign Up and Login if the user is not logged in -->
+                    <li><a href="{{ url_for('login') }}">Sign Up</a></li>
+            
+                {% endif %}
+            </ul>
+        </div>
+    </header>
+    
+
+    <!-- Main Content Section -->
+    <section class="main-content">
+        <h1>Room Management</h1>
+
+        <!-- Room Management Sections -->
+        <div class="section-container">
+
+            <!-- Section 1: Search for Available Rooms -->
+            <div class="section-card">
+                <h2><i class="fas fa-search"></i> Search for Available Rooms</h2>
+                <p>Browse available rooms by location, price, and other preferences. Get instant results and compare your options.</p>
+                <a href="{{ url_for('Search') }}">
+                    <button>Search Rooms</button>
+                </a>
+               
+            </div>
+
+ <!-- Section 2: Apply for a Room -->
+<div class="section-card">
+    <h2><i class="fas fa-paper-plane"></i> Apply for a Room</h2>
+    <p>Apply for rooms directly within the platform. Stay updated on the status of your applications with ease.</p>
+    <!-- Use url_for to link to the apply route -->
+    <a href="{{ url_for('apply') }}">
+        <button>Apply for Room</button>
+    </a>
+</div>
+
+<!-- Section 3: Cancel a Room Application -->
+<div class="section-card">
+    <h2><i class="fas fa-times"></i> Cancel a Room Application</h2>
+    <p>If you decide to cancel your application, you can do it effortlessly from the platform.</p>
+    <!-- Use url_for to link to the cancel route -->
+    <a href="{{ url_for('cancel') }}">
+        <button>Cancel Application</button>
+    </a>
+</div>
+
+
+
+            <!-- Section 4: View History of Applications -->
+            <div class="section-card">
+                <h2><i class="fas fa-history"></i> View History of Applications</h2>
+                <p>Review all your past applications, including the current status of each one, in a dedicated history section.</p>
+                <a href="{{ url_for('history') }}">
+                    <button>view history</button>
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>You must <a href="login.html">login</a> to be able to apply for a room.</p>
+        </div>
+    </section>
+
+    <!-- Login Modal (hidden initially) -->
+    <div class="login-modal" id="login-modal">
+        <h2>You need to log in!</h2>
+        <p>You must log in before applying for a room. Please click below to login.</p>
+        <a href="login.html">
+            <button>Login</button>
+        </a>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Function to show login modal
+        function showLoginModal() {
+            document.getElementById('login-modal').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>
+
+

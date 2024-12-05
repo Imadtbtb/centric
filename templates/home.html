@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Booking System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylehome.css') }}">
+    
+</head>
+<body>
+
+    <h1>Welcome to the Room Booking System</h1>
+
+    <!-- Room Booking Form -->
+    <div class="form-container">
+        <h2>Book a Room</h2>
+        <form action="/book_room" method="POST">
+            <label for="user_name">Your Name:</label>
+            <input type="text" id="user_name" name="user_name" required>
+
+            <label for="room_id">Room ID:</label>
+            <input type="text" id="room_id" name="room_id" required>
+
+            <button type="submit">Book Room</button>
+        </form>
+    </div>
+
+    <!-- Cancel Application Form -->
+    <div class="form-container">
+        <h2>Cancel Application</h2>
+        <form action="/cancel_application" method="POST">
+            <label for="application_id">Application ID:</label>
+            <input type="text" id="application_id" name="application_id" required>
+
+            <button type="submit">Cancel Application</button>
+        </form>
+    </div>
+
+    <!-- Button to go to rooms page -->
+    <div class="form-container">
+        <a href="/rooms">
+            <button class="link-button">View Available Rooms</button>
+        </a>
+    </div>
+
+</body>
+</html>
+
+
+
+

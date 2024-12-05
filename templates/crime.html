@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crime Watch</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: url('https://i.pinimg.com/736x/fe/9c/9a/fe9c9a28d4ec5ccd4a176e82920b4d20.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #004d40;
+    }
+
+    .navbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100%;
+      background-color: #00796b;
+      padding-top: 20px;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    .navbar .logo h1 {
+      font-size: 32px;
+      font-weight: bold;
+      color: white;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+    }
+
+    .nav-links {
+      list-style: none;
+      padding: 0;
+    }
+
+    .nav-links li {
+      margin: 15px 0;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: block;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      background-color: #004d40;
+    }
+
+    .container {
+      margin-left: 270px;
+      padding: 2rem;
+    }
+
+    
+
+    .crime-content {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #00796b;
+      border-radius: 10px;
+      padding: 2rem;
+      height: 400px;
+      margin: 2rem auto;
+      width: 800px ;
+      box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.8);
+    }
+
+    .description {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: #004d40;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    label {
+      font-size: 1.2rem;
+      color: #00796b;
+      font-weight: bold;
+    }
+
+    input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      border: 1px solid #00796b;
+      border-radius: 5px;
+      width: 80%;
+      box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.8);
+    }
+
+    button {
+      background-color: #00796b;
+      color: #fff;
+      font-size: 1.2rem;
+      padding: 0.7rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #004d40;
+      transform: scale(1.05);
+    }
+
+    #crime-results {
+      margin-top: 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      color: #004d40;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+   
+    <div class="navbar">
+        <div class="logo">
+            <h1>Global Dorm</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('Search') }}">Search</a></li>
+            <li><a href="{{ url_for('crime') }}">Crime</a></li>
+            <li><a href="{{ url_for('weather') }}">Weather</a></li>
+            <li><a href="{{ url_for('distance') }}">Distance</a></li>
+            <li><a href="{{ url_for('apply') }}">Apply</a></li>
+            <li><a href="{{ url_for('history') }}">History</a></li>
+            <li><a href="{{ url_for('cancel') }}">Cancel</a></li>
+            <li><a href="{{ url_for('index') }}">Home Page</a></li>
+        </ul>
+    </div>
+    <main class="crime-content">
+      <p class="description">
+        Enter the longitude and latitude of your location to view the history of crimes in your area. Stay safe and informed!
+      </p>
+      <form id="crime-form">
+        <label for="longitude">Longitude:</label>
+        <input type="text" id="longitude" name="longitude" placeholder="Enter Longitude" required>
+        <label for="latitude">Latitude:</label>
+        <input type="text" id="latitude" name="latitude" placeholder="Enter Latitude" required>
+        <button type="button" id="fetch-crimes">Display Crime History</button>
+      </form>
+      <div id="crime-results">
+        <!-- Crime history will be displayed here -->
+      </div>
+    </main>
+  </div>
+  <script>
+    document.getElementById('fetch-crimes').addEventListener('click', function () {
+      const longitude = document.getElementById('longitude').value;
+      const latitude = document.getElementById('latitude').value;
+
+      if (longitude && latitude) {
+        document.getElementById('crime-results').innerHTML = `
+          <p>Crimes reported near Longitude: ${longitude}, Latitude: ${latitude}</p>
+          <ul>
+            <li>Theft: 10 incidents</li>
+            <li>Assault: 5 incidents</li>
+            <li>Burglary: 3 incidents</li>
+          </ul>
+        `;
+      } else {
+        document.getElementById('crime-results').innerHTML = '<p>Please provide both longitude and latitude.</p>';
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

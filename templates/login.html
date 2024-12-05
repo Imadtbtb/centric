@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylelogin.css') }}">
+    
+</head>
+<header class="navbar">
+    <div class="navbar-container">
+        <div class="logo">
+            <h1>Global Dorm</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('room') }}">Room Management</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+            {% if 'user_data' in session %}
+                <!-- Show Logout if the user is logged in -->
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <!-- Show Sign Up and Login if the user is not logged in -->
+                <li><a href="{{ url_for('login') }}">Sign Up</a></li>
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+
+
+<body>
+    <main>
+        <div class="centered-container">
+            <div class="left-container">
+                <h2 id="left-title">Welcome Back!</h2>
+                <p id="left-message">Hi Friend, enter your personal details and start your journey with us!</p>
+                <button id="toggle-btn" class="toggle-form" onclick="toggleForms()">Log In</button>
+            </div>
+
+            <div class="right-container">
+                <div class="form-wrapper">
+                    <!-- Sign Up Form -->
+                    <div class="form-box active" id="signup-form">
+                        <h1>Sign Up</h1>
+
+                        <div class="social-login">
+                            <a href="#" class="google-btn">
+                                <i class="fab fa-google"></i> Sign up with Google
+                            </a>
+                            <a href="#" class="apple-btn">
+                                <i class="fab fa-apple"></i> Sign up with Apple
+                            </a>
+                            <a href="#" class="facebook-btn">
+                                <i class="fab fa-facebook"></i> Sign up with Facebook
+                            </a>
+                        </div>
+
+                        <!-- Sign Up Form -->
+                        <form action="{{ url_for('login') }}" method="POST">
+                            <input type="text" name="first_name" placeholder="First Name" required>
+                            <input type="text" name="family_name" placeholder="Family Name" required>
+                            <input type="date" name="dob" required>
+                            <input type="tel" name="phone" placeholder="Phone Number" required>
+                            <input type="email" name="email" placeholder="Email" required>
+                            <input type="password" name="password" placeholder="Password" required>
+                            <button type="submit">Sign Up</button>
+                        </form>
+                    </div>
+
+                    <!-- Log In Form -->
+                    <div class="form-box" id="login-form">
+                        <h1>Log In</h1>
+
+                        <!-- Login Form -->
+                        <form id="loginForm" method="POST">
+                            <input type="email" name="email" id="email" placeholder="Email" required>
+                            <input type="password" name="password" id="password" placeholder="Password" required>
+                            <button type="submit">Log In</button>
+                        </form>
+                        <!-- Message Area -->
+                        <div id="message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function toggleForms() {
+            const signupForm = document.getElementById('signup-form');
+            const loginForm = document.getElementById('login-form');
+            const centeredContainer = document.querySelector('.centered-container');
+            const toggleButton = document.getElementById('toggle-btn');
+            const leftMessage = document.getElementById('left-message');
+            const leftTitle = document.getElementById('left-title');
+
+            // Toggle active class
+            signupForm.classList.toggle('active');
+            loginForm.classList.toggle('active');
+
+            // Toggle the transition class for animation
+            centeredContainer.classList.toggle('transition-left');
+
+            // Change button text and left message based on the current form
+            if (signupForm.classList.contains('active')) {
+                toggleButton.textContent = "Log In"; 
+                leftTitle.textContent = "Hi Friend!";
+                leftMessage.textContent = "Enter your personal details and start your journey with us!";
+            } else {
+                toggleButton.textContent = "Sign Up"; 
+                leftTitle.textContent = "Welcome Back!";
+                leftMessage.textContent = "To keep connected with us, please login your personal info.";
+            }
+        }
+
+        $(document).ready(function() {
+        // Handle the login form submission with AJAX
+        $('#loginForm').on('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+
+            // Get the email and password values from the form
+            var email = $('#email').val();
+            var password = $('#password').val();
+
+            // Send the form data via AJAX
+            $.ajax({
+                url: "{{ url_for('check_credentials') }}",  // Route for checking login credentials
+                method: "POST",
+                data: {
+                    email: email,
+                    password: password
+                },
+                success: function(response) {
+                    // If login is successful, display success message and redirect
+                    if (response.success) {
+                        $('#message').html("<p>Successfully logged in!</p>");
+                        window.location.href = "{{ url_for('index') }}"; // Redirect to home page
+                    } else {
+                        $('#message').html("<p style='color:red;'>Wrong credentials, please try again.</p>");
+                    }
+                },
+                error: function() {
+                    $('#message').html("<p style='color:red;'>There was an error processing your request. Please try again later.</p>");
+                }
+            });
+        });
+    });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
