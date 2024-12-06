@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to bottom, #3ba79a, #c1ebe4); 
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #00796b;
+            padding-top: 20px;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .navbar .logo h1 {
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-links li {
+            margin: 15px 0;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: block;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #004d40;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .container h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #00796b;
+        }
+
+        .container form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .container input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .container button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .container button:hover {
+            background-color: #004d40;
+        }
+
+        #weatherInfo {
+            display: none;
+            text-align: left;
+        }
+
+        #weatherInfo p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+    </style>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <h1>Global Dorm</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('Search') }}"><i class="fas fa-search"></i> Search</a></li>
+            <li><a href="{{ url_for('crime') }}"><i class="fas fa-shield-alt"></i> Crime</a></li>
+            <li><a href="{{ url_for('weather') }}"><i class="fas fa-cloud-sun"></i> Weather</a></li>
+            <li><a href="{{ url_for('distance') }}"><i class="fas fa-map-marker-alt"></i> Distance</a></li>
+            <li><a href="{{ url_for('apply') }}"><i class="fas fa-user-check"></i> Apply</a></li>
+            <li><a href="{{ url_for('history') }}"><i class="fas fa-history"></i> History</a></li>
+            <li><a href="{{ url_for('cancel') }}"><i class="fas fa-ban"></i> Cancel</a></li>
+            <li><a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home Page</a></li>
+        </ul>
+    </div>
+
+    <div class="container" id="formContainer">
+        <h1>Get Weather Data</h1>
+        <form id="weatherForm">
+            <input type="text" id="latitude" name="latitude" placeholder="Enter Latitude" required>
+            <input type="text" id="longitude" name="longitude" placeholder="Enter Longitude" required>
+            <button type="submit">Get Weather</button>
+        </form>
+
+        <div id="weatherInfo"></div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#weatherForm').submit(function(event) {
+                event.preventDefault();
+
+                // Get the latitude and longitude values
+                var latitude = $('#latitude').val();
+                var longitude = $('#longitude').val();
+
+                // Send data to the Flask server
+                $.ajax({
+                    url: '/get_weather',
+                    type: 'POST',
+                    data: {
+                        latitude: latitude,
+                        longitude: longitude
+                    },
+                    success: function(response) {
+                        if (response.error) {
+                            $('#weatherInfo').html('<p>Error: ' + response.error + '</p>');
+                        } else {
+                            // Replace form content with weather information
+                            $('#formContainer').html(`
+                                <h1>Weather Information</h1>
+                                <p><strong>City:</strong> ${response.city}</p>
+                                <p><strong>Temperature:</strong> ${response.temperature} °C</p>
+                                <p><strong>Humidity:</strong> ${response.humidity} %</p>
+                                <p><strong>Pressure:</strong> ${response.pressure} hPa</p>
+                                <p><strong>Wind Speed:</strong> ${response.wind_speed} m/s</p>
+                                <p><strong>Wind Direction:</strong> ${response.wind_direction}°</p>
+                                <p><strong>Cloudiness:</strong> ${response.cloudiness} %</p>
+                                <p><strong>Weather:</strong> ${response.weather_description}</p>
+                                <p><strong>Sunrise:</strong> ${response.sunrise}</p>
+                                <p><strong>Sunset:</strong> ${response.sunset}</p>
+                            `).fadeIn();
+                        }
+                    },
+                    error: function() {
+                        $('#weatherInfo').html('<p>An error occurred while fetching the weather data.</p>').fadeIn();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

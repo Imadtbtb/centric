@@ -8,6 +8,11 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from search import search_room
 import search 
 import requests
+from flask import  json
+from crime import crime_client 
+from weather import get_weather_data, parse_weather_data
+from distance import calculate_distance 
+
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -309,7 +314,56 @@ def search_room():
             return render_template('Search.html', message="No rooms found matching your criteria.")
     return render_template('Search.html')
 
+@app.route('/fetch_crime_data', methods=['POST'])
+def fetch_crime_data():
+    data = request.json
+    latitude = data.get('latitude')
+    longitude = data.get('longitude')
+    result = crime_client(latitude, longitude)  # Get crime data from crime_client function
+    return jsonify(result)  # Return as JSON
 
+
+@app.route('/get_weather', methods=['POST'])
+def get_weather():
+    # Retrieve latitude and longitude from the form
+    latitude = float(request.form['latitude'])
+    longitude = float(request.form['longitude'])
+    
+    # Call the get_weather_data function from weather.py
+    raw_weather_data = get_weather_data(latitude, longitude)
+    
+    # Check if the response contains an error
+    if "Error" not in raw_weather_data:
+        # Parse the weather data
+        parsed_weather_data = parse_weather_data(raw_weather_data)
+        # Return the parsed weather data as JSON
+        return jsonify(parsed_weather_data)
+    else:
+        return jsonify({'error': raw_weather_data})
+    
+@app.route('/distance', methods=['GET', 'POST'], endpoint='distance_calculation')
+def distance():
+    if request.method == 'POST':
+        # Get form data
+        lat1 = float(request.form['lat1'])
+        lon1 = float(request.form['lon1'])
+        lat2 = float(request.form['lat2'])
+        lon2 = float(request.form['lon2'])
+        unit = request.form['unit']
+
+        # Call the calculate_distance function
+        json_response, _ = calculate_distance(lat1, lon1, lat2, lon2, unit)
+
+        # Parse the JSON response to extract the distance and unit
+        response_data = json.loads(json_response)
+        formatted_distance = f"{response_data['distance']:.2f} {response_data['unit']}"
+
+        # Display the results
+        return render_template('distance.html', formatted_distance=formatted_distance)
+
+    return render_template('distance.html', formatted_distance=None)
+
+    
 if __name__ == '__main__':
     app.run(debug=True)
 

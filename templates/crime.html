@@ -63,58 +63,71 @@
     .container {
       margin-left: 270px;
       padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-
-    
 
     .crime-content {
       background: rgba(255, 255, 255, 0.9);
       border: 2px solid #00796b;
-      border-radius: 10px;
+      border-radius: 15px;
       padding: 2rem;
-      height: 400px;
-      margin: 2rem auto;
-      width: 800px ;
-      box-shadow: 0px 4px 12px rgba(255, 255, 255, 0.8);
+      width: 800px;
+      height: auto;
+      box-shadow: 0px 6px 18px rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
     }
 
     .description {
-      font-size: 1.2rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.4rem;
+      margin-bottom: 2rem;
       color: #004d40;
+      text-align: center;
     }
 
     form {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 1rem;
+      align-items: flex-start;
+      gap: 1.5rem;
+      width: 100%;
     }
 
     label {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: #00796b;
       font-weight: bold;
+      display: block;
+      width: 100%;
+      text-align: left;
     }
 
     input {
-      padding: 0.5rem;
-      font-size: 1rem;
+      padding: 0.8rem;
+      font-size: 1.2rem;
       border: 1px solid #00796b;
-      border-radius: 5px;
-      width: 80%;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 300px;
       box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.8);
     }
 
     button {
       background-color: #00796b;
       color: #fff;
-      font-size: 1.2rem;
-      padding: 0.7rem 1.5rem;
+      font-size: 1.3rem;
+      padding: 0.8rem 1.8rem;
       border: none;
-      border-radius: 5px;
+      border-radius: 10px;
       cursor: pointer;
       transition: background-color 0.3s ease, transform 0.2s ease;
+      margin-top: 1rem;
     }
 
     button:hover {
@@ -124,60 +137,135 @@
 
     #crime-results {
       margin-top: 2rem;
-      font-size: 1rem;
+      font-size: 1.2rem;
       font-weight: bold;
       color: #004d40;
+      text-align: center;
+    }
+
+    #crime-list {
+      margin-top: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+      font-size: 1.1rem;
+      color: #004d40;
+      padding-right: 10px;
+      text-align: center;
+    }
+
+    .crime-item {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      background-color: #e0f2f1;
+      margin-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    #crime-form {
+      display: block;
+    }
+
+    #crime-form.hidden {
+      display: none;
+    }
+
+    /* Customizing Scrollbar */
+    #crime-list::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    #crime-list::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    #crime-list::-webkit-scrollbar-thumb {
+      background-color: #00796b;
+      border-radius: 10px;
+      border: 3px solid #f1f1f1;
     }
   </style>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <div class="container">
-   
     <div class="navbar">
-        <div class="logo">
-            <h1>Global Dorm</h1>
-        </div>
-        <ul class="nav-links">
-            <li><a href="{{ url_for('Search') }}">Search</a></li>
-            <li><a href="{{ url_for('crime') }}">Crime</a></li>
-            <li><a href="{{ url_for('weather') }}">Weather</a></li>
-            <li><a href="{{ url_for('distance') }}">Distance</a></li>
-            <li><a href="{{ url_for('apply') }}">Apply</a></li>
-            <li><a href="{{ url_for('history') }}">History</a></li>
-            <li><a href="{{ url_for('cancel') }}">Cancel</a></li>
-            <li><a href="{{ url_for('index') }}">Home Page</a></li>
-        </ul>
+      <div class="logo">
+        <h1>Global Dorm</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="{{ url_for('Search') }}"><i class="fas fa-search"></i> Search</a></li>
+        <li><a href="{{ url_for('crime') }}"><i class="fas fa-shield-alt"></i> Crime</a></li>
+        <li><a href="{{ url_for('weather') }}"><i class="fas fa-cloud-sun"></i> Weather</a></li>
+        <li><a href="{{ url_for('distance') }}"><i class="fas fa-map-marker-alt"></i> Distance</a></li>
+        <li><a href="{{ url_for('apply') }}"><i class="fas fa-user-check"></i> Apply</a></li>
+        <li><a href="{{ url_for('history') }}"><i class="fas fa-history"></i> History</a></li>
+        <li><a href="{{ url_for('cancel') }}"><i class="fas fa-ban"></i> Cancel</a></li>
+        <li><a href="{{ url_for('index') }}"><i class="fas fa-home"></i> Home Page</a></li>
+    </ul>
     </div>
     <main class="crime-content">
       <p class="description">
         Enter the longitude and latitude of your location to view the history of crimes in your area. Stay safe and informed!
       </p>
       <form id="crime-form">
-        <label for="longitude">Longitude:</label>
-        <input type="text" id="longitude" name="longitude" placeholder="Enter Longitude" required>
-        <label for="latitude">Latitude:</label>
-        <input type="text" id="latitude" name="latitude" placeholder="Enter Latitude" required>
+        <div>
+          <label for="longitude">Longitude:</label>
+          <input type="text" id="longitude" name="longitude" placeholder="Enter Longitude" required>
+        </div>
+        <div>
+          <label for="latitude">Latitude:</label>
+          <input type="text" id="latitude" name="latitude" placeholder="Enter Latitude" required>
+        </div>
         <button type="button" id="fetch-crimes">Display Crime History</button>
       </form>
-      <div id="crime-results">
-        <!-- Crime history will be displayed here -->
-      </div>
+      <div id="crime-results"></div>
+      <div id="crime-list"></div>
     </main>
   </div>
+
   <script>
     document.getElementById('fetch-crimes').addEventListener('click', function () {
       const longitude = document.getElementById('longitude').value;
       const latitude = document.getElementById('latitude').value;
 
       if (longitude && latitude) {
-        document.getElementById('crime-results').innerHTML = `
-          <p>Crimes reported near Longitude: ${longitude}, Latitude: ${latitude}</p>
-          <ul>
-            <li>Theft: 10 incidents</li>
-            <li>Assault: 5 incidents</li>
-            <li>Burglary: 3 incidents</li>
-          </ul>
-        `;
+        document.getElementById('crime-results').innerHTML = `Crimes reported near Longitude: ${longitude}, Latitude: ${latitude}`;
+        document.getElementById('crime-list').innerHTML = ''; // Clear previous crime list
+
+        // Hide the form and show results
+        document.getElementById('crime-form').classList.add('hidden');
+
+        const data = {
+          latitude: latitude,
+          longitude: longitude
+        };
+
+        // Send data via fetch API (AJAX)
+        fetch('/fetch_crime_data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+          if (result.crimes && result.crimes.length > 0) {
+            result.crimes.forEach(function(crime) {
+              var crimeItem = document.createElement("div");
+              crimeItem.className = "crime-item";
+              crimeItem.innerHTML = `<strong>Category:</strong> ${crime.category}<br><strong>Location:</strong> Latitude ${crime.location.latitude}, Longitude ${crime.location.longitude}`;
+              document.getElementById("crime-list").appendChild(crimeItem);
+            });
+          } else {
+            document.getElementById('crime-results').innerHTML = "No crimes found for this location.";
+          }
+        })
+        .catch(error => {
+          document.getElementById('crime-results').innerHTML = "Error: " + error;
+        });
       } else {
         document.getElementById('crime-results').innerHTML = '<p>Please provide both longitude and latitude.</p>';
       }
@@ -185,10 +273,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
