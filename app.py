@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request
-from apply import fetch_room_details, send_application_data
-from cancel import cancel_application_request
 from flask import Flask, request, render_template, redirect, url_for, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import logging
@@ -12,6 +10,8 @@ from flask import  json
 from crime import crime_client 
 from weather import get_weather_data, parse_weather_data
 from distance import calculate_distance 
+from apply import apply_room
+from cancel import cancel_application
 
 
 app = Flask(__name__)
@@ -64,11 +64,28 @@ def room():
 def Search():
     # No room data here, just rendering the template
     return render_template('Search.html')
-@app.route('/cancel')
+@app.route('/cancel', methods=['GET', 'POST'])
 def cancel():
-    # No room data here, just rendering the template
-    return render_template('cancel.html')
-@app.route('/apply')
+    logged_in = 'user_data' in session
+    user_id = None
+    response = None  # Initialize response variable
+
+    if logged_in:
+        user_id = session['user_data']['id']
+    
+    if request.method == 'POST':
+        try:
+            application_id = request.form['application_id']
+            if logged_in:
+                response = cancel_application(application_id, user_id)
+            else:
+                response = {"error": "User is not logged in."}
+        except Exception as e:
+            response = {"error": str(e)}
+
+    return render_template('cancel.html', response=response)
+
+@app.route('/apply', methods=['GET', 'POST'])
 def apply():
     # Check if the user is logged in by checking if session contains user data
     logged_in = 'user_data' in session
@@ -78,7 +95,22 @@ def apply():
     if logged_in:
         user_id = session['user_data']['id']  # Retrieve the user ID from session
     
-    # Pass the login status and user_id to the template
+    # If the request method is POST (when the form is submitted)
+    if request.method == 'POST':
+        try:
+            # Get room_id from the form
+            room_id = request.form['room_id']
+
+            # If user is logged in, call apply_room function with user_id and room_id
+            if logged_in:
+                response = apply_room(user_id, room_id)
+                return response  # Send the response from apply_room back to the client
+            else:
+                return "User not logged in.", 403  # If no user data in session, return unauthorized response
+        except Exception as e:
+            return f"An error occurred: {str(e)}", 500  # Handle unexpected errors
+    
+    # If the request method is GET, just render the apply page
     return render_template('apply.html', logged_in=logged_in, user_id=user_id)
 
 
@@ -199,78 +231,8 @@ def check_credentials():
 def logout():
     session.pop('user_data', None)  # Remove the user data from session
     return redirect(url_for('index'))  # Redirect to home page or login page
-@app.route('/book_room', methods=['POST'])
-def book_room():
-    # Get room_id from the form
-    room_id = request.form['room_id']
-
-    # Retrieve user_id from session
-    user_id = session['user_data']['id']  # Get the logged-in user's ID from the session
-
-    print(f"Booking room for User ID: {user_id} with Room ID {room_id}")
-
-    try:
-        # Fetch room details using the provided room ID
-        room_details = fetch_room_details(room_id)
-        print(f"Room details: {room_details}")
-
-        # Retrieve user details from the session
-        user = session['user_data']  # User data from session
-
-        # Step 1: Create a new application entry in the database
-        application = Application(
-            user_id=user_id,
-            firstname=user['firstname'],
-            familyname=user['familyname'],
-            email=user['email'],
-            phone_number=user['phone_number'],
-            room_id=room_id
-        )
-        db.session.add(application)
-        db.session.commit()  # Commit the transaction to save the new application
-
-        # Step 2: Fetch the last application_id from the Application table and increment it
-        last_application = Application.query.order_by(Application.application_id.desc()).first()
-        new_application_id = last_application.application_id + 1 if last_application else 1
-
-        # Step 3: Send application data to the server, passing the new application_id and user_id
-        send_application_data(user_id, room_id, room_details, new_application_id)
-
-        return f"Room booked successfully for User ID {user_id} in room {room_id}. Application ID: {new_application_id}"
-
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        return f"An error occurred: {str(e)}"
-
-
-@app.route('/cancel_application', methods=['POST'])
-def cancel_application():
-    application_id = request.form['application_id']
-
-    print(f"Cancelling application with ID: {application_id}")
-
-    try:
-        # Cancel the application request using the external service or any logic you need
-        cancel_application_request(application_id)
-        
-        # Now, remove the application from the Application table in the database
-        application_to_delete = Application.query.filter_by(application_id=application_id).first()
-        
-        if application_to_delete:
-            db.session.delete(application_to_delete)  # Delete the application record
-            db.session.commit()  # Commit the transaction
-
-            return f"Application {application_id} has been cancelled and removed from the database."
-        else:
-            return f"Application with ID {application_id} not found."
-
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        return f"An error occurred while cancelling the application: {str(e)}"
 
     
-    
-
 @app.route('/Search', methods=['GET', 'POST'])
 def search_room():
     if request.method == 'POST':
