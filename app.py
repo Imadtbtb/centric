@@ -12,6 +12,7 @@ from weather import get_weather_data, parse_weather_data
 from distance import calculate_distance 
 from apply import apply_room
 from cancel import cancel_application
+from history import post_user_id, get_history,  deserialize
 
 
 app = Flask(__name__)
@@ -126,13 +127,27 @@ def crime():
 def weather():
     # No room data here, just rendering the template
     return render_template('weather.html')
-@app.route('/history')
+@app.route('/history', methods=['GET', 'POST'])
 def history():
-    # Retrieve all application records from the database
-    applications = Application.query.all()
-    
-    # Pass the applications to the template for display
-    return render_template('history.html', applications=applications)
+    if request.method == 'POST':
+        user_id = request.form['userId']
+        
+        try:
+            # Post the userId to set it on the server
+            post_response = post_user_id(user_id)
+            get_response = get_history()
+
+            # Deserialize and parse the history response
+            parsed_history = deserialize(get_response)  # Call deserialize here
+
+            # Render the response on the history page
+            return render_template('history.html', post_response=post_response, 
+                                   get_response=get_response, parsed_history=parsed_history)
+
+        except Exception as e:
+            return f"Error occurred: {e}"
+
+    return render_template('history.html')
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
@@ -324,6 +339,7 @@ def distance():
         return render_template('distance.html', formatted_distance=formatted_distance)
 
     return render_template('distance.html', formatted_distance=None)
+
 
     
 if __name__ == '__main__':

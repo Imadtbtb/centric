@@ -1,21 +1,22 @@
-
-history
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application History</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
-    <style>  
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylehome.css') }}">
+    <style>
+        /* Refined CSS for Application History Page */
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(to bottom, #00bfae, #009c8c);
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #3ba79a, #c1ebe4);
             overflow: hidden;
             position: relative;
             height: 100vh;
             margin: 0;
-            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .navbar {
@@ -31,17 +32,14 @@ history
             flex-direction: column;
             align-items: flex-start;
             justify-content: flex-start;
-            box-shadow: 3px 0px 10px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
         }
 
         .navbar .logo h1 {
             font-size: 32px;
-            font-weight: 600;
+            font-weight: bold;
             color: white;
             letter-spacing: 2px;
             margin-bottom: 30px;
-            text-transform: uppercase;
         }
 
         .nav-links {
@@ -56,147 +54,157 @@ history
         .nav-links a {
             color: white;
             text-decoration: none;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 500;
             padding: 10px 20px;
             border-radius: 5px;
             display: block;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            transition: background-color 0.3s ease;
         }
 
         .nav-links a:hover {
             background-color: #004d40;
-            transform: scale(1.05);
         }
 
-        /* New Styling for the Title */
-        h1 {
+        .main-content {
+            margin-left: 270px;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .history-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            margin-left: 280px;
+            margin-bottom: 150px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            width: 60%;
+            margin-top: 150px;
+            max-width: 800px;
             text-align: center;
-            color: #00796b; /* Green color to match the navbar */
-            margin-top: 50px; /* Reduced top margin */
-            font-size: 36px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #ffffff;
-            font-size: 20px;
-            margin-top: 10px;
-            font-weight: 400;
-        }
-
-        .table-container {
-            margin: 20px auto;
-            padding: 20px;
-            margin-right: 250px;
-            width: 100%;
-            max-width: 1300px;
-            border-radius: 10px;
-            background: #ffffff;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            border-radius: 10px;
-            overflow: hidden;
-            background-color: #f7f7f7;
-            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
+            font-family: 'Arial', sans-serif;
             transition: transform 0.3s ease;
         }
 
-        th, td {
-            padding: 15px 25px;
-            text-align: left;
-            font-size: 16px;
-            font-weight: 400;
-            color: #333;
+        .history-container:hover {
+            transform: scale(1.05); /* Subtle scaling effect on hover */
         }
 
-        th {
+        .history-container h2 {
+            color: #00796b;
+            font-size: 36px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .history-container p {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .history-container form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .history-container label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .history-container input {
+            padding: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 80%;
+            font-size: 18px;
+            box-sizing: border-box;
+        }
+
+        /* Updated button styles - Green with hover effects */
+        .history-container button {
+            background-color: #4caf50; /* Green color */
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .history-container button:hover {
+            background-color: #45a049; /* Darker green */
+            transform: scale(1.05); /* Button grows on hover */
+        }
+
+        .history-container button:active {
+            background-color: #388e3c; /* Even darker green on click */
+            transform: scale(0.98); /* Slight shrink on click */
+        }
+
+        .history-container p a {
+            color: #00796b;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .history-container p a:hover {
+            color: #004d40; /* Darker green on hover */
+        }
+
+        /* Scrollable box for the response content */
+        .scrollable-box {
+            width: 100%;
+            max-height: 300px;  /* Set the height to a fixed value */
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow-y: auto;  /* Enable vertical scrolling */
+            background-color: #f9f9f9;
+            font-family: 'Courier New', Courier, monospace;
+            margin-bottom: 20px;
+        }
+
+        /* Button Group */
+        .button-group {
+            margin-top: 20px;
+            margin-bottom: 30px;
+        }
+
+        .button-group button {
             background-color: #00796b;
             color: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #e8f5e9;
-        }
-
-        tr:hover {
-            background-color: #80cbc4;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 5px;
+            border-radius: 6px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s, transform 0.3s;
         }
 
-        td {
-            border-top: 1px solid #ddd;
-            border-bottom: 1px solid #ddd;
+        .button-group button:hover {
+            background-color: #004d40;
+            transform: scale(1.05);
         }
 
-        /* Table Animation */
-        table:hover {
-            transform: translateY(-5px);
+        /* Hide the form after submission */
+        .hidden {
+            display: none;
         }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            table, th, td {
-                font-size: 14px;
-            }
-
-            h1 {
-                font-size: 28px;
-            }
-
-            .table-container {
-                width: 95%;
-                padding: 10px;
-            }
-        }
-
-        /* Custom Scrollbar */
-        .table-container::-webkit-scrollbar {
-            width: 14px;
-        }
-
-        .table-container::-webkit-scrollbar-track {
-            background: #e0f2f1;
-            border-radius: 10px;
-        }
-
-        .table-container::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #00796b, #004d40);
-            border-radius: 10px;
-            border: 4px solid transparent;
-            background-clip: content-box;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .table-container::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #004d40, #00796b);
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .table-container::-webkit-scrollbar-thumb:active {
-            background: #004d40;
-            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.4);
-        }
-
     </style>
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="navbar">
@@ -215,40 +223,48 @@ history
         </ul>
     </div>
 
-    <div class="table-container">
-        <h1>Application History</h1>
-        <p class="subtitle">Check your application status</p>
+    <!-- Application History Content -->
+    <div class="history-container">
+        <h2>Application History</h2>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>Application ID</th>
-                    <th>User ID</th>
-                    <th>First Name</th>
-                    <th>Family Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Room ID</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for application in applications %}
-                <tr>
-                    <td>{{ application.application_id }}</td>
-                    <td>{{ application.user_id }}</td>
-                    <td>{{ application.firstname }}</td>
-                    <td>{{ application.familyname }}</td>
-                    <td>{{ application.email }}</td>
-                    <td>{{ application.phone_number }}</td>
-                    <td>{{ application.room_id }}</td>
-                </tr>
+        <!-- Form to enter the user ID and submit -->
+        <form method="POST" class="{% if get_response %}hidden{% endif %}">
+            <label for="userId">Enter User ID:</label>
+            <input type="text" id="userId" name="userId" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Button group for switching between serialized and deserialized view -->
+        {% if get_response %}
+        <div class="button-group">
+            <button onclick="document.getElementById('serialized').style.display='block';document.getElementById('deserialized').style.display='none';">Serialized</button>
+            <button onclick="document.getElementById('deserialized').style.display='block';document.getElementById('serialized').style.display='none';">Deserialized</button>
+        </div>
+        {% endif %}
+
+        <!-- Display Raw History Response (Serialized) -->
+        {% if get_response %}
+        <div id="serialized" class="scrollable-box" style="display: block;">
+            <h3>Raw History Response:</h3>
+            <pre>{{ get_response }}</pre>
+        </div>
+        {% endif %}
+
+        <!-- Display Parsed History Response (Deserialized) -->
+        {% if parsed_history %}
+        <div id="deserialized" class="scrollable-box" style="display: none;">
+            <h3>Parsed History Response:</h3>
+            <ul>
+                {% for entry in parsed_history %}
+                    <li>ID: {{ entry.entry_id }}, User ID: {{ entry.user_id }}, Room ID: {{ entry.room_id }}, Status: {{ entry.status }}</li>
                 {% endfor %}
-            </tbody>
-        </table>
+            </ul>
+        </div>
+        {% else %}
+        <div id="deserialized" class="scrollable-box" style="display: none;">
+            <p>No history found.</p>
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>
-
-
-
-
