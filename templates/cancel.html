@@ -75,7 +75,6 @@
             justify-content: flex-start;
         }
 
-        /* New, sophisticated container for cancel application */
         .cancel-application-container {
             background-color: #ffffff;
             padding: 40px;
@@ -91,7 +90,7 @@
         }
 
         .cancel-application-container:hover {
-            transform: scale(1.05); /* Subtle scaling effect on hover */
+            transform: scale(1.05);
         }
 
         .cancel-application-container h2 {
@@ -130,9 +129,8 @@
             box-sizing: border-box;
         }
 
-        /* Updated button styles - Red with hover effects */
         .cancel-application-container button {
-            background-color: #e53935; /* Red color */
+            background-color: #e53935;
             color: white;
             border: none;
             padding: 15px 40px;
@@ -144,13 +142,13 @@
         }
 
         .cancel-application-container button:hover {
-            background-color: #d32f2f; /* Darker red */
-            transform: scale(1.05); /* Button grows on hover */
+            background-color: #d32f2f;
+            transform: scale(1.05);
         }
 
         .cancel-application-container button:active {
-            background-color: #c62828; /* Even darker red on click */
-            transform: scale(0.98); /* Slight shrink on click */
+            background-color: #c62828;
+            transform: scale(0.98);
         }
 
         .cancel-application-container p a {
@@ -161,12 +159,30 @@
         }
 
         .cancel-application-container p a:hover {
-            color: #004d40; /* Darker green on hover */
+            color: #004d40;
+        }
+
+        /* Error panel styling */
+        .error-panel {
+            background-color: #dabcba;
+            color: white;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        /* Success panel styling */
+        .success-panel {
+            background-color: #4caf50;
+            color: white;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
         }
 
     </style>
-<head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="navbar">
@@ -185,21 +201,36 @@
         </ul>
     </div>
 
-    <!-- Cancel Application Form with refined styling -->
     <div class="cancel-application-container">
         <h2>Cancel Your Application</h2>
         <p>We are sorry to hear that you wish to cancel your application. Please be aware that this action will permanently remove your application from our database, and you will no longer be considered for our dormitory services.</p>
         <p>If you still wish to proceed, please enter your Application ID below.</p>
+
+        {% if response and response.error %}
+            <div class="error-panel">
+                <p>{{ response.error }}</p>
+            </div>
+        {% endif %}
+
+        {% if response and response.success %}
+            <div class="success-panel">
+                <p>{{ response.success }}</p>
+            </div>
+        {% endif %}
+
         <form action="/cancel" method="POST">
             <label for="application_id">Application ID:</label>
             <input type="text" id="application_id" name="application_id" required>
-
             <button type="submit">Cancel Application</button>
         </form>
-        <p>If you have any further questions or concerns, please feel free to contact our support team.</p>
-        <p>To apply again in the future, please visit our <a href="{{ url_for('apply') }}">Application Page</a>.</p>
+
+        {% if logged_in %}
+            <p>Welcome back, {{ session['user_data']['name'] }}!</p>
+            <p>If you have any further questions or concerns, please feel free to contact our support team.</p>
+            <p>To apply again in the future, please visit our <a href="{{ url_for('apply') }}">Application Page</a>.</p>
+        {% else %}
+            <p>If you are not logged in, please log in to proceed with the cancellation.</p>
+        {% endif %}
     </div>
 </body>
 </html>
-
-

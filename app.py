@@ -13,6 +13,7 @@ from distance import calculate_distance
 from apply import apply_room
 from cancel import cancel_application
 from history import post_user_id, get_history,  deserialize
+from check import checkid, checkroomid
 
 
 app = Flask(__name__)
@@ -77,14 +78,25 @@ def cancel():
     if request.method == 'POST':
         try:
             application_id = request.form['application_id']
-            if logged_in:
-                response = cancel_application(application_id, user_id)
+            if not checkid(application_id):
+                response = {"error": "Application ID does not exist."}
+            elif logged_in:
+                cancel_result = cancel_application(application_id, user_id)
+                if cancel_result:  # Assuming cancel_application returns True on success
+                    response = {"success": "Failed to cancel the application."}
+                else:
+                    response = {"error":
+                                "Your application has been successfully cancelled." }
             else:
                 response = {"error": "User is not logged in."}
+        except ValueError:  # Catch invalid value for application_id
+            response = {"error": "Invalid Application ID. Please enter a valid ID."}
         except Exception as e:
             response = {"error": str(e)}
 
     return render_template('cancel.html', response=response)
+
+
 
 @app.route('/apply', methods=['GET', 'POST'])
 def apply():
@@ -93,26 +105,32 @@ def apply():
     
     # If the user is logged in, retrieve the user ID from the session
     user_id = None
+    room_application_status = None
     if logged_in:
-        user_id = session['user_data']['id']  # Retrieve the user ID from session
+        user_id = session['user_data']['id']
     
     # If the request method is POST (when the form is submitted)
     if request.method == 'POST':
         try:
             # Get room_id from the form
             room_id = request.form['room_id']
-
-            # If user is logged in, call apply_room function with user_id and room_id
-            if logged_in:
-                response = apply_room(user_id, room_id)
-                return response  # Send the response from apply_room back to the client
+            
+            # Check if the room ID exists in the database
+            if not checkroomid(room_id):
+                room_application_status = "Room ID does not exist."  # If room does not exist, show error
             else:
-                return "User not logged in.", 403  # If no user data in session, return unauthorized response
+                # If user is logged in, call apply_room function with user_id and room_id
+                if logged_in:
+                    response = apply_room(user_id, room_id)
+                    room_application_status = response  # Set the response to be shown on the page
+                else:
+                    room_application_status = "User not logged in."  # Show error if user isn't logged in
         except Exception as e:
-            return f"An error occurred: {str(e)}", 500  # Handle unexpected errors
+            room_application_status = f"An error occurred: {str(e)}"  # Handle unexpected errors
     
-    # If the request method is GET, just render the apply page
-    return render_template('apply.html', logged_in=logged_in, user_id=user_id)
+    # Render the apply page with the room_application_status message
+    return render_template('apply.html', logged_in=logged_in, user_id=user_id, room_application_status=room_application_status)
+
 
 
 @app.route('/distance')

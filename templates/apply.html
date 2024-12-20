@@ -137,7 +137,7 @@
         }
 
         .alert {
-            color: red;
+            color: rgb(0, 0, 0);
             font-weight: bold;
             text-align: center;
             margin-top: 20px;
@@ -228,6 +228,10 @@
 
                 <button type="submit" {% if not logged_in %} class="disabled" disabled {% endif %}>Book Room</button>
             </form>
+
+            {% if room_application_status %}
+                <div class="alert">{{ room_application_status }}</div>
+            {% endif %}
 
             <div class="history-section">
                 <p><i class="icon">📜</i> Check or track your room application status on the <a href="{{ url_for('history') }}">History</a> page.</p>
