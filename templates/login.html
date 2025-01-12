@@ -18,10 +18,10 @@
             <li><a href="{{ url_for('room') }}">Room Management</a></li>
             <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
             {% if 'user_data' in session %}
-                <!-- Show Logout if the user is logged in -->
+                
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
             {% else %}
-                <!-- Show Sign Up and Login if the user is not logged in -->
+               
                 <li><a href="{{ url_for('login') }}">Sign Up</a></li>
                 <li><a href="{{ url_for('login') }}">Login</a></li>
             {% endif %}
@@ -98,14 +98,13 @@
             const leftMessage = document.getElementById('left-message');
             const leftTitle = document.getElementById('left-title');
 
-            // Toggle active class
+        
             signupForm.classList.toggle('active');
             loginForm.classList.toggle('active');
 
-            // Toggle the transition class for animation
             centeredContainer.classList.toggle('transition-left');
 
-            // Change button text and left message based on the current form
+    
             if (signupForm.classList.contains('active')) {
                 toggleButton.textContent = "Log In"; 
                 leftTitle.textContent = "Hi Friend!";
@@ -118,27 +117,26 @@
         }
 
         $(document).ready(function() {
-        // Handle the login form submission with AJAX
+        
         $('#loginForm').on('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting normally
+            event.preventDefault(); 
 
-            // Get the email and password values from the form
             var email = $('#email').val();
             var password = $('#password').val();
 
-            // Send the form data via AJAX
+
             $.ajax({
-                url: "{{ url_for('check_credentials') }}",  // Route for checking login credentials
+                url: "{{ url_for('check_credentials') }}",  
                 method: "POST",
                 data: {
                     email: email,
                     password: password
                 },
                 success: function(response) {
-                    // If login is successful, display success message and redirect
+              
                     if (response.success) {
                         $('#message').html("<p>Successfully logged in!</p>");
-                        window.location.href = "{{ url_for('index') }}"; // Redirect to home page
+                        window.location.href = "{{ url_for('index') }}"; 
                     } else {
                         $('#message').html("<p style='color:red;'>Wrong credentials, please try again.</p>");
                     }

@@ -22,10 +22,10 @@
                 <li><a href="{{ url_for('room') }}">Room Management</a></li>
                 <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
                 {% if 'user_data' in session %}
-                    <!-- Show Logout if the user is logged in -->
+                 
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 {% else %}
-                    <!-- Show Sign Up and Login if the user is not logged in -->
+   
                     <li><a href="{{ url_for('login') }}">Sign Up</a></li>
                   
                 {% endif %}
@@ -37,7 +37,7 @@
     <!-- Main Content Area -->
     <main id="home" class="main-content">
 
-        <!-- Section 1: Left and Right Containers -->
+
         <section class="intro-section">
             <div class="left-container">
                 <h1>Welcome to Your Student Room Application</h1>
@@ -47,7 +47,7 @@
             </div>
 
             <div class="right-container">
-                <!-- Image placed here using the external link -->
+              
             </div>
         </section>
 

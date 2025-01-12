@@ -6,7 +6,7 @@
     <title>Application History</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='stylehome.css') }}">
     <style>
-        /* Refined CSS for Application History Page */
+
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(to bottom, #3ba79a, #c1ebe4);
@@ -91,7 +91,7 @@
         }
 
         .history-container:hover {
-            transform: scale(1.05); /* Subtle scaling effect on hover */
+            transform: scale(1.05);
         }
 
         .history-container h2 {
@@ -130,9 +130,9 @@
             box-sizing: border-box;
         }
 
-        /* Updated button styles - Green with hover effects */
+ 
         .history-container button {
-            background-color: #4caf50; /* Green color */
+            background-color: #4caf50; 
             color: white;
             border: none;
             padding: 15px 40px;
@@ -144,13 +144,13 @@
         }
 
         .history-container button:hover {
-            background-color: #45a049; /* Darker green */
-            transform: scale(1.05); /* Button grows on hover */
+            background-color: #45a049; 
+            transform: scale(1.05);
         }
 
         .history-container button:active {
-            background-color: #388e3c; /* Even darker green on click */
-            transform: scale(0.98); /* Slight shrink on click */
+            background-color: #388e3c;
+            transform: scale(0.98); 
         }
 
         .history-container p a {
@@ -161,23 +161,23 @@
         }
 
         .history-container p a:hover {
-            color: #004d40; /* Darker green on hover */
+            color: #004d40;
         }
 
-        /* Scrollable box for the response content */
+   
         .scrollable-box {
             width: 100%;
-            max-height: 300px;  /* Set the height to a fixed value */
+            max-height: 300px;  
             padding: 15px;
             border: 1px solid #ccc;
             border-radius: 8px;
-            overflow-y: auto;  /* Enable vertical scrolling */
+            overflow-y: auto; 
             background-color: #f9f9f9;
             font-family: 'Courier New', Courier, monospace;
             margin-bottom: 20px;
         }
 
-        /* Button Group */
+       
         .button-group {
             margin-top: 20px;
             margin-bottom: 30px;
@@ -225,18 +225,18 @@
         </ul>
     </div>
 
-    <!-- Application History Content -->
+ 
     <div class="history-container">
         <h2>Application History</h2>
 
-        <!-- Form to enter the user ID and submit -->
+      
         <form method="POST" class="{% if get_response %}hidden{% endif %}">
             <label for="userId">Enter User ID:</label>
             <input type="text" id="userId" name="userId" required>
             <button type="submit">Submit</button>
         </form>
 
-        <!-- Button group for switching between serialized and deserialized view -->
+      
         {% if get_response %}
         <div class="button-group">
             <button onclick="document.getElementById('serialized').style.display='block';document.getElementById('deserialized').style.display='none';">Serialized</button>
@@ -244,7 +244,6 @@
         </div>
         {% endif %}
 
-        <!-- Display Raw History Response (Serialized) -->
         {% if get_response %}
         <div id="serialized" class="scrollable-box" style="display: block;">
             <h3>Raw History Response:</h3>
@@ -252,7 +251,7 @@
         </div>
         {% endif %}
 
-        <!-- Display Parsed History Response (Deserialized) -->
+       
         {% if parsed_history %}
         <div id="deserialized" class="scrollable-box" style="display: none;">
             <h3>Parsed History Response:</h3>

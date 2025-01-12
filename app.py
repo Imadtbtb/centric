@@ -18,7 +18,7 @@ from check import checkid, checkroomid
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
-# In-memory counter for application IDs (just for demonstration purposes)
+
 application_id_counter = 1
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@127.0.0.1:5432/cloud'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -60,17 +60,16 @@ def index():
 
 @app.route('/rooms')
 def room():
-    # No room data here, just rendering the template
+   
     return render_template('rooms.html')
 @app.route('/Search')
 def Search():
-    # No room data here, just rendering the template
     return render_template('Search.html')
 @app.route('/cancel', methods=['GET', 'POST'])
 def cancel():
     logged_in = 'user_data' in session
     user_id = None
-    response = None  # Initialize response variable
+    response = None 
 
     if logged_in:
         user_id = session['user_data']['id']
@@ -82,14 +81,14 @@ def cancel():
                 response = {"error": "Application ID does not exist."}
             elif logged_in:
                 cancel_result = cancel_application(application_id, user_id)
-                if cancel_result:  # Assuming cancel_application returns True on success
+                if cancel_result:  
                     response = {"success": "Failed to cancel the application."}
                 else:
                     response = {"error":
                                 "Your application has been successfully cancelled." }
             else:
                 response = {"error": "User is not logged in."}
-        except ValueError:  # Catch invalid value for application_id
+        except ValueError:   
             response = {"error": "Invalid Application ID. Please enter a valid ID."}
         except Exception as e:
             response = {"error": str(e)}
@@ -100,35 +99,35 @@ def cancel():
 
 @app.route('/apply', methods=['GET', 'POST'])
 def apply():
-    # Check if the user is logged in by checking if session contains user data
+   
     logged_in = 'user_data' in session
     
-    # If the user is logged in, retrieve the user ID from the session
+
     user_id = None
     room_application_status = None
     if logged_in:
         user_id = session['user_data']['id']
     
-    # If the request method is POST (when the form is submitted)
+   
     if request.method == 'POST':
         try:
-            # Get room_id from the form
+         
             room_id = request.form['room_id']
             
-            # Check if the room ID exists in the database
+          
             if not checkroomid(room_id):
-                room_application_status = "Room ID does not exist."  # If room does not exist, show error
+                room_application_status = "Room ID does not exist."  
             else:
-                # If user is logged in, call apply_room function with user_id and room_id
+               
                 if logged_in:
                     response = apply_room(user_id, room_id)
-                    room_application_status = response  # Set the response to be shown on the page
+                    room_application_status = response  
                 else:
-                    room_application_status = "User not logged in."  # Show error if user isn't logged in
+                    room_application_status = "User not logged in."  
         except Exception as e:
-            room_application_status = f"An error occurred: {str(e)}"  # Handle unexpected errors
+            room_application_status = f"An error occurred: {str(e)}"  
     
-    # Render the apply page with the room_application_status message
+
     return render_template('apply.html', logged_in=logged_in, user_id=user_id, room_application_status=room_application_status)
 
 
@@ -151,14 +150,14 @@ def history():
         user_id = request.form['userId']
         
         try:
-            # Post the userId to set it on the server
+          
             post_response = post_user_id(user_id)
             get_response = get_history()
 
-            # Deserialize and parse the history response
-            parsed_history = deserialize(get_response)  # Call deserialize here
+           
+            parsed_history = deserialize(get_response)   
 
-            # Render the response on the history page
+          
             return render_template('history.html', post_response=post_response, 
                                    get_response=get_response, parsed_history=parsed_history)
 
@@ -170,16 +169,16 @@ def history():
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
-        # Get form data
+     
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
         email = request.form.get('email')
         message = request.form.get('message')
 
-        # Log received form data for debugging
+        
         logging.info("Received contact form submission: %s, %s, %s", first_name, last_name, email)
 
-        # Save the data to the database
+         
         new_contact = Contact(
             firstname=first_name,
             familyname=last_name,
@@ -189,7 +188,7 @@ def contact():
         db.session.add(new_contact)
         db.session.commit()
         
-        # Redirect or render a success message
+       
         return redirect(url_for('contact'))
 
     return render_template('contact.html')
@@ -197,12 +196,12 @@ def contact():
 
 @app.route('/home')
 def home():
-    # No room data here, just rendering the template
+    
     return render_template('home.html')
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        # Get form data
+      
         firstname = request.form.get('first_name')
         familyname = request.form.get('family_name')
         dateofbirth = request.form.get('dob')
@@ -210,14 +209,14 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        # Log received form data for debugging
+    
         logging.info("Received signup form submission: %s, %s, %s, %s, %s, %s", 
                      firstname, familyname, dateofbirth, phone_number, email, password)
 
-        # Hash the password before saving
+       
         hashed_password = generate_password_hash(password)
 
-        # Save the data to the database
+   
         new_user = Userdetails(
             firstname=firstname,
             familyname=familyname,
@@ -229,7 +228,7 @@ def login():
         db.session.add(new_user)
         db.session.commit()
         
-        # Redirect to the login page or another page after successful sign-up
+       
         return redirect(url_for('login'))
 
     return render_template('login.html')
@@ -242,8 +241,8 @@ def check_credentials():
 
         user = Userdetails.query.filter_by(email=email).first()
 
-        if user and check_password_hash(user.password, password):  # Use `check_password_hash` for comparison
-            # Store user data in session
+        if user and check_password_hash(user.password, password):  
+       
             session['user_data'] = {
                 "id": user.id,
                 "firstname": user.firstname,
@@ -254,38 +253,37 @@ def check_credentials():
             }
 
             logging.info("User %s successfully logged in.", email)
-            return jsonify({"success": True})  # Return success response to trigger front-end action
+            return jsonify({"success": True})  
         else:
             logging.warning("Login attempt failed for user: %s", email)
-            return jsonify({"success": False})  # Return failure response if credentials don't match
+            return jsonify({"success": False})  
 
 
 @app.route('/logout')
 def logout():
-    session.pop('user_data', None)  # Remove the user data from session
-    return redirect(url_for('index'))  # Redirect to home page or login page
+    session.pop('user_data', None)   
+    return redirect(url_for('index'))   
 
     
 @app.route('/Search', methods=['GET', 'POST'])
 def search_room():
     if request.method == 'POST':
-        # Get input from form
+      
         price_max = request.form['priceMax']
         city = request.form['city']
         county = request.form['county']
 
-        # Construct the external API URL
+    
         external_url = f'http://localhost:8080/RestfulService/webresources/WeatherApp/searchRoom?priceMax={price_max}&city={city}&county={county}'
 
         
-        # Fetch the data from the external API
+  
         response = requests.get(external_url)
         
-        # Check if the response is successful
+         
         if response.status_code == 200:
-            rooms_data = response.json()  # Parse the JSON data
-            
-            # Process the room data
+            rooms_data = response.json()   
+ 
             rooms = rooms_data.get('rooms', [])
             room_details = []
 
@@ -323,15 +321,14 @@ def get_weather():
     # Retrieve latitude and longitude from the form
     latitude = float(request.form['latitude'])
     longitude = float(request.form['longitude'])
-    
-    # Call the get_weather_data function from weather.py
+     
     raw_weather_data = get_weather_data(latitude, longitude)
     
-    # Check if the response contains an error
+   
     if "Error" not in raw_weather_data:
-        # Parse the weather data
+   
         parsed_weather_data = parse_weather_data(raw_weather_data)
-        # Return the parsed weather data as JSON
+         
         return jsonify(parsed_weather_data)
     else:
         return jsonify({'error': raw_weather_data})
@@ -339,21 +336,20 @@ def get_weather():
 @app.route('/distance', methods=['GET', 'POST'], endpoint='distance_calculation')
 def distance():
     if request.method == 'POST':
-        # Get form data
+     
         lat1 = float(request.form['lat1'])
         lon1 = float(request.form['lon1'])
         lat2 = float(request.form['lat2'])
         lon2 = float(request.form['lon2'])
         unit = request.form['unit']
 
-        # Call the calculate_distance function
+       
         json_response, _ = calculate_distance(lat1, lon1, lat2, lon2, unit)
-
-        # Parse the JSON response to extract the distance and unit
+ 
         response_data = json.loads(json_response)
         formatted_distance = f"{response_data['distance']:.2f} {response_data['unit']}"
 
-        # Display the results
+ 
         return render_template('distance.html', formatted_distance=formatted_distance)
 
     return render_template('distance.html', formatted_distance=None)

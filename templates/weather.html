@@ -156,11 +156,11 @@
             $('#weatherForm').submit(function(event) {
                 event.preventDefault();
 
-                // Get the latitude and longitude values
+              
                 var latitude = $('#latitude').val();
                 var longitude = $('#longitude').val();
 
-                // Send data to the Flask server
+              
                 $.ajax({
                     url: '/get_weather',
                     type: 'POST',
@@ -172,7 +172,7 @@
                         if (response.error) {
                             $('#weatherInfo').html('<p>Error: ' + response.error + '</p>');
                         } else {
-                            // Replace form content with weather information
+                          
                             $('#formContainer').html(`
                                 <h1>Weather Information</h1>
                                 <p><strong>City:</strong> ${response.city}</p>

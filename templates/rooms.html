@@ -21,10 +21,10 @@
                 <li><a href="{{ url_for('room') }}">Room Management</a></li>
                 <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
                 {% if 'user_data' in session %}
-                    <!-- Show Logout if the user is logged in -->
+ 
                     <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 {% else %}
-                    <!-- Show Sign Up and Login if the user is not logged in -->
+                
                     <li><a href="{{ url_for('login') }}">Sign Up</a></li>
             
                 {% endif %}
@@ -54,7 +54,7 @@
 <div class="section-card">
     <h2><i class="fas fa-paper-plane"></i> Apply for a Room</h2>
     <p>Apply for rooms directly within the platform. Stay updated on the status of your applications with ease.</p>
-    <!-- Use url_for to link to the apply route -->
+
     <a href="{{ url_for('apply') }}">
         <button>Apply for Room</button>
     </a>
@@ -64,7 +64,7 @@
 <div class="section-card">
     <h2><i class="fas fa-times"></i> Cancel a Room Application</h2>
     <p>If you decide to cancel your application, you can do it effortlessly from the platform.</p>
-    <!-- Use url_for to link to the cancel route -->
+  
     <a href="{{ url_for('cancel') }}">
         <button>Cancel Application</button>
     </a>
@@ -89,7 +89,7 @@
         </div>
     </section>
 
-    <!-- Login Modal (hidden initially) -->
+
     <div class="login-modal" id="login-modal">
         <h2>You need to log in!</h2>
         <p>You must log in before applying for a room. Please click below to login.</p>
@@ -98,9 +98,8 @@
         </a>
     </div>
 
-    <!-- JavaScript -->
     <script>
-        // Function to show login modal
+
         function showLoginModal() {
             document.getElementById('login-modal').style.display = 'block';
         }

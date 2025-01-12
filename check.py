@@ -1,13 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-# Initialize Flask app and SQLAlchemy
+ 
 db = SQLAlchemy()
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@127.0.0.1:5432/cloud'
 db.init_app(app)
 
-# Define the Room model
+ 
 class Room(db.Model):
     __tablename__ = 'rooms'
 
@@ -28,7 +28,7 @@ class Room(db.Model):
     location = db.Column(db.JSON)  # Changed to db.JSON
     details = db.Column(db.JSON)  # Changed to db.JSON
 
-# Define the ApplicationRoom model
+ 
 class ApplicationRoom(db.Model):
     __tablename__ = 'applicationroom'
 
@@ -36,8 +36,7 @@ class ApplicationRoom(db.Model):
     userid = db.Column(db.Integer, nullable=False)
     roomid = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String, nullable=False)
-
-# Function to check if the application ID exists
+ 
 def checkid(application_id):
     """
     Checks if the application ID exists in the applicationroom table.
@@ -52,7 +51,7 @@ def checkid(application_id):
         exists = db.session.query(ApplicationRoom.id).filter_by(id=application_id).first()
         return exists is not None
 
-# Function to check if the room ID exists
+ 
 def checkroomid(room_id):
     """
     Checks if the room ID exists in the rooms table.

@@ -14,10 +14,10 @@
     
     body {
         font-family: Arial, sans-serif;
-        background: linear-gradient(to bottom, #12776b, #c1ebe4); /* Updated gradient background */
+        background: linear-gradient(to bottom, #12776b, #c1ebe4); 
         overflow: hidden;
         position: relative;
-        height: 100vh; /* Ensure the body takes full height */
+        height: 100vh; 
     }
     
     .navbar {
@@ -79,10 +79,10 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         width: 1000px;
         height: 600px;
-        position: absolute; /* Change to absolute positioning */
-        top: 50%; /* Position from top */
-        left: 50%; /* Position from left */
-        transform: translate(-50%, -50%); /* Center it */
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translate(-50%, -50%); 
         margin-top: 30px;
     }
     
@@ -122,35 +122,35 @@
     }
     
     .top-icon {
-        margin: 25px 0; /* Increased space between icons */
+        margin: 25px 0; 
         display: flex;
-        align-items: center; /* Align text and icon on the same line */
+        align-items: center; 
     }
     
     .top-icon i {
-        font-size: 30px; /* Increase icon size */
-        color: #12776b; /* Changed icon color to #12776b */
-        margin-right: 10px; /* Space between icon and text */
+        font-size: 30px;
+        color: #12776b; 
+        margin-right: 10px; 
     }
     
     .top-icon-info {
         display: flex;
-        flex-direction: column; /* Stack title and info vertically */
+        flex-direction: column; 
         padding-left: 18px;
     }
     
     .top-icon strong {
-        font-size: 21px; /* Increased bold title size */
-        color: #333; /* Title color */
+        font-size: 21px; 
+        color: #333; 
     }
     
     .top-icon span {
-        font-size: 16px; /* Increased info text size */
-        color: #666; /* Info color */
+        font-size: 16px;
+        color: #666; 
     }
     
     .contact-form {
-        padding-top: 25px; /* Adjust this value */
+        padding-top: 25px; 
     }
     
     .contact-form input,
@@ -170,7 +170,7 @@
     }
     
     .submit-btn {
-        background-color: #12776b; /* Changed button background to #12776b */
+        background-color: #12776b; 
         color: white;
         padding: 10px;
         width: 40%;
@@ -183,7 +183,7 @@
     }
     
     .submit-btn:hover {
-        background-color: #004d40; /* Changed hover color to #004d40 */
+        background-color: #004d40;
     }
     
     .social-icons {
@@ -191,20 +191,20 @@
         bottom: 20px;
         right: 40px;
         display: flex;
-        padding: 10px; /* Add padding inside the box */
-        background-color: #f1f1f1; /* Background color for the box */
-        border: 2px solid #12776b; /* Changed border color to #12776b */
-        border-radius: 8px; /* Rounded corners for the box */
+        padding: 10px; 
+        background-color: #f1f1f1; 
+        border: 2px solid #12776b;
+        border-radius: 8px;
     }
     
     .social-icon {
-        margin: 0 20px; /* Increased space between social icons */
-        font-size: 23px; /* Increase icon size */
-        color: #12776b; /* Change icon color to #12776b */
+        margin: 0 20px; 
+        font-size: 23px; 
+        color: #12776b; 
     }
     
     .social-icon:hover {
-        color: #004d40; /* Changed hover color to #004d40 */
+        color: #004d40; 
     }
     
     .fab, .fas {
@@ -221,10 +221,10 @@
             <li><a href="{{ url_for('room') }}">Room Management</a></li>
             <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
             {% if 'user_data' in session %}
-                <!-- Show Logout if the user is logged in -->
+        
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
             {% else %}
-                <!-- Show Sign Up and Login if the user is not logged in -->
+             
                 <li><a href="{{ url_for('login') }}">Sign Up</a></li>
                
             {% endif %}
